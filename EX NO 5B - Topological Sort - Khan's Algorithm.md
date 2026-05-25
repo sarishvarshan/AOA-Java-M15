@@ -60,7 +60,7 @@ If not, print "Release cannot be scheduled".
 ```
 /*
 Program to implement Reverse a String
-Developed by: SARISH VARSHAN v
+Developed by: SARISH VARSHAN V
 Register Number:  212223230196
 */
 
