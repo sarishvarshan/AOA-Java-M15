@@ -1,6 +1,6 @@
 
 # EX 5C Graph coloring
-## DATE:
+## DATE: 18.05.26
 ## AIM:
 To write a Java program to for given constraints.
 Problem Description:
@@ -25,23 +25,107 @@ Otherwise, print "NO".
 <img width="182" height="440" alt="image" src="https://github.com/user-attachments/assets/b32078a2-c79d-4a25-88c4-e51144b5456f" />
 
 
-## Algorithm
-1. 
-2. 
-3. 
-4.  
-5.   
+# Algorithm
+
+### 1. Input:
+
+- Read the number of towers `n`, available channels `m`, and number of connections `e`.
+
+- Read each connection pair `(u, v)` and build an adjacency list for the graph.
+
+### 2. Initialization:
+
+- Create an integer array `color[n]` initialized with `0` (meaning no channel assigned).
+
+- Each tower (node) can be assigned a color (channel) from `1` to `m`.
+
+### 3. Safety Check (`isSafe`):
+
+- Before assigning a channel to a tower, check all its adjacent towers.
+
+- If any adjacent tower already uses the same channel, assignment is not safe.
+
+### 4. Backtracking Solution (`solve`):
+
+- Try assigning each channel (`1` to `m`) to the current tower.
+
+- If safe, recursively assign channels to the next tower.
+
+- If no valid channel exists, **backtrack** and try another combination.
+
+### 5. Output:
+
+- If all towers can be assigned channels without conflict → print `"YES"`.
+
+- Otherwise → print `"NO"`. 
 
 ## Program:
 ```
 /*
 Program to implement Reverse a String
-Developed by: 
-Register Number:  
+Developed by: SARISH VARSHAN V
+Register Number:  212223230196
 */
+
+import java.util.*;
+
+public class RadioTowerChannelAssignment {
+    //Write your code
+     private static boolean isSafe(int node, List<List<Integer>> graph, int[] color, int c) {
+        for (int adj : graph.get(node)) {
+            if (color[adj] == c) return false; // adjacent node has same color
+        }
+        return true;
+    }
+
+    public static boolean isColorable(List<List<Integer>> graph, int[] color, int node, int m, int n) {
+        //Write your code
+        if (node == n) return true; // all towers are assigned
+
+        for (int c = 1; c <= m; c++) { // try all available channels
+            if (isSafe(node, graph, color, c)) {
+                color[node] = c;
+                if (isColorable(graph, color, node + 1, m, n))
+                    return true;
+                color[node] = 0; // backtrack
+            }
+        }
+        return false;
+    }
+
+    
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(); // number of towers
+        int m = sc.nextInt(); // number of channels
+        int e = sc.nextInt(); // number of connections
+
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+
+        for (int i = 0; i < e; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+
+        int[] color = new int[n];
+
+        if (isColorable(graph, color, 0, m, n))
+            System.out.println("YES");
+        else
+            System.out.println("NO");
+
+        sc.close();
+    }
+}
 ```
 
 ## Output:
+<img width="889" height="496" alt="image" src="https://github.com/user-attachments/assets/c8a56a21-d690-43ef-95be-f9a5814927f4" />
 
 
 
